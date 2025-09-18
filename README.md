@@ -1,3 +1,4 @@
+[![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/x--mPZ-x)
 # CineList
 
 No dia a dia, muitas pessoas passam mais tempo escolhendo o que assistir do que realmente assistindo. Plataformas de streaming oferecem milhares de opções, mas falta uma maneira simples de organizar filmes e séries de interesse, descobrir novidades e priorizar o que realmente importa.
