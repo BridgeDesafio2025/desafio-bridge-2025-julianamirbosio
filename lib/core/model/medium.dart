@@ -1,3 +1,5 @@
+import 'package:movies__series_app/core/model/rating.dart';
+
 import '../enums/media_type.dart';
 
 class Medium {
@@ -12,6 +14,7 @@ class Medium {
   final String duration;
   final int? episodes;
   final int? seasons;
+  final List<Rating> ratings;
 
   Medium({
     required this.id,
@@ -25,13 +28,15 @@ class Medium {
     required this.duration,
     this.episodes,
     this.seasons,
+    required this.ratings,
   });
 
   factory Medium.fromJson(Map<String, dynamic> json) {
     return Medium(
       id: json['id'],
       type: MediaType.values.firstWhere(
-        (type) => type.name.toLowerCase() == json['type'].toString().toLowerCase(),
+        (type) =>
+            type.name.toLowerCase() == json['type'].toString().toLowerCase(),
         orElse: () => MediaType.movie,
       ),
       title: json['title'],
@@ -43,6 +48,10 @@ class Medium {
       duration: json['duration'],
       episodes: json['episodes'],
       seasons: json['seasons'],
+      ratings: (json['ratings'] as List<dynamic>?)
+              ?.map((e) => Rating.fromJson(e))
+              .toList() ??
+          [],
     );
   }
 }
