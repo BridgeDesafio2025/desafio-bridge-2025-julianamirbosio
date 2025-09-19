@@ -109,11 +109,26 @@ class _UserRatingsWidgetState extends State<UserRatingsWidget> {
                     Row(
                       mainAxisSize: MainAxisSize.min,
                       children: List.generate(5, (index) {
-                        return Icon(
-                          index < averageRating.floor() ? Icons.star : Icons.star_border,
-                          color: AppTheme.warningColor,
-                          size: 16,
-                        );
+                        if (index < averageRating.floor()) {
+                          return Icon(
+                            Icons.star,
+                            color: AppTheme.warningColor,
+                            size: 16,
+                          );
+                        } else if (index < averageRating &&
+                            (averageRating - averageRating.floor()) >= 0.5) {
+                          return Icon(
+                            Icons.star_half,
+                            color: AppTheme.warningColor,
+                            size: 16,
+                          );
+                        } else {
+                          return Icon(
+                            Icons.star_border,
+                            color: AppTheme.warningColor,
+                            size: 16,
+                          );
+                        }
                       }),
                     ),
                     SizedBox(height: 0.5.h),
@@ -130,7 +145,8 @@ class _UserRatingsWidgetState extends State<UserRatingsWidget> {
                   child: Column(
                     children: ratingBreakdown.map((rating) {
                       final int stars = rating['stars'] ?? 5;
-                      final double percentage = (rating['percentage'] as num?)?.toDouble() ?? 0.0;
+                      final double percentage =
+                          (rating['percentage'] as num?)?.toDouble() ?? 0.0;
 
                       return Padding(
                         padding: EdgeInsets.symmetric(vertical: 0.5.h),
@@ -138,7 +154,8 @@ class _UserRatingsWidgetState extends State<UserRatingsWidget> {
                           children: [
                             Text(
                               '$stars',
-                              style: AppTheme.darkTheme.textTheme.bodySmall?.copyWith(
+                              style: AppTheme.darkTheme.textTheme.bodySmall
+                                  ?.copyWith(
                                 color: AppTheme.mutedText,
                               ),
                             ),
@@ -153,7 +170,8 @@ class _UserRatingsWidgetState extends State<UserRatingsWidget> {
                               child: Container(
                                 height: 0.5.h,
                                 decoration: BoxDecoration(
-                                  color: AppTheme.borderColor.withValues(alpha: 0.3),
+                                  color: AppTheme.borderColor
+                                      .withValues(alpha: 0.3),
                                   borderRadius: BorderRadius.circular(2),
                                 ),
                                 child: FractionallySizedBox(
@@ -171,7 +189,8 @@ class _UserRatingsWidgetState extends State<UserRatingsWidget> {
                             SizedBox(width: 2.w),
                             Text(
                               '${percentage.toInt()}%',
-                              style: AppTheme.darkTheme.textTheme.bodySmall?.copyWith(
+                              style: AppTheme.darkTheme.textTheme.bodySmall
+                                  ?.copyWith(
                                 color: AppTheme.mutedText,
                               ),
                             ),

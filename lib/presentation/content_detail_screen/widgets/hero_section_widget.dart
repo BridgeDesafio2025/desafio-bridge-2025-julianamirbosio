@@ -89,7 +89,7 @@ class HeroSectionWidget extends StatelessWidget {
                           ),
                           SizedBox(width: 1.w),
                           Text(
-                            '${contentData.rating.toStringAsFixed(1)}/10',
+                            '${contentData.rating.toStringAsFixed(1)}/5',
                             style: AppTheme.darkTheme.textTheme.bodyMedium?.copyWith(
                               color: AppTheme.contentWhite,
                               fontWeight: FontWeight.w600,

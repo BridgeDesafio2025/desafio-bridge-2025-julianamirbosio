@@ -121,8 +121,8 @@ class ContentCardWidget extends StatelessWidget {
 
   Widget _buildRatingStars() {
     final rating = content.rating;
-    final fullStars = (rating / 2).floor();
-    final hasHalfStar = (rating / 2) - fullStars >= 0.5;
+    final fullStars = rating.floor();
+    final hasHalfStar = rating - fullStars >= 0.5;
 
     return Row(
       children: [
