@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../../../core/app_export.dart';
+import '../../../core/enums/media_type.dart';
 import '../../../core/model/medium.dart';
 
 class ContentCardWidget extends StatelessWidget {
@@ -68,13 +69,19 @@ class ContentCardWidget extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            content.title,
-            style: AppTheme.darkTheme.textTheme.titleMedium?.copyWith(
-              fontWeight: FontWeight.w600,
-            ),
-            maxLines: 2,
-            overflow: TextOverflow.ellipsis,
+          Row(
+            children: [
+              Text(
+                content.title,
+                style: AppTheme.darkTheme.textTheme.titleMedium?.copyWith(
+                  fontWeight: FontWeight.w600,
+                ),
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+              ),
+              const Spacer(),
+              _buildDurationTag(),
+            ],
           ),
           SizedBox(height: 1.h),
           _buildGenreTags(),
@@ -87,6 +94,36 @@ class ContentCardWidget extends StatelessWidget {
             ],
           ),
         ],
+      ),
+    );
+  }
+  
+  Widget _buildDurationTag() {
+    String tagText;
+    if (content.type == MediaType.series) {
+      final season = content.seasons != null ? 'T${content.seasons}' : '';
+      final episode = content.episodes != null ? 'E${content.episodes}' : '';
+      tagText = [season, episode].where((e) => e.isNotEmpty).join(' • ');
+      if (tagText.isEmpty) tagText = 'Série';
+    } else {
+      tagText = content.duration.isNotEmpty ? content.duration : 'Filme';
+    }
+
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+      decoration: BoxDecoration(
+        color: AppTheme.mutedText.withValues(alpha: 0.2),
+        borderRadius: BorderRadius.circular(4),
+        border: Border.all(
+          color: AppTheme.mutedText.withValues(alpha: 0.3),
+        ),
+      ),
+      child: Text(
+        tagText,
+        style: AppTheme.darkTheme.textTheme.bodySmall?.copyWith(
+          color: AppTheme.mutedText,
+          fontWeight: FontWeight.w500,
+        ),
       ),
     );
   }
