@@ -97,7 +97,7 @@ class ContentCardWidget extends StatelessWidget {
       ),
     );
   }
-  
+
   Widget _buildDurationTag() {
     String tagText;
     if (content.type == MediaType.series) {
@@ -196,21 +196,61 @@ class ContentCardWidget extends StatelessWidget {
   }
 
   Widget _buildPlatformLogo() {
-    final platform = 'Amazon';
+    final platforms = content.streamingPlatforms;
 
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 2.w, vertical: 0.5.h),
-      decoration: BoxDecoration(
-        color: AppTheme.accentColor.withValues(alpha: 0.1),
-        borderRadius: BorderRadius.circular(6),
-      ),
-      child: Text(
-        platform,
-        style: AppTheme.darkTheme.textTheme.labelSmall?.copyWith(
-          color: AppTheme.accentColor,
-          fontWeight: FontWeight.w500,
+    if (platforms.isEmpty) {
+      return const SizedBox.shrink();
+    }
+
+    final List<Widget> tagWidgets = [];
+
+    // Define um limite para a quantidade de tags
+    const int maxTagsToShow = 2;
+
+    // Adiciona tags com o nome das plataformas
+    for (int i = 0; (i < platforms.length) && (i < maxTagsToShow); i++) {
+      final platform = platforms[i];
+
+      tagWidgets.add(Container(
+        padding: EdgeInsets.symmetric(horizontal: 2.w, vertical: 0.5.h),
+        decoration: BoxDecoration(
+          color: AppTheme.accentColor.withValues(alpha: 0.1),
+          borderRadius: BorderRadius.circular(6),
         ),
-      ),
+        child: Text(
+          platform.name,
+          style: AppTheme.darkTheme.textTheme.labelSmall?.copyWith(
+            color: AppTheme.accentColor,
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+      ));
+
+      tagWidgets.add(SizedBox(width: 2.w));
+    }
+
+    // Se ainda restarem tags, adicionamos uma mini tag indicando as outras que faltaram
+    if (platforms.length > maxTagsToShow) {
+      final int remainingCount = platforms.length - maxTagsToShow;
+
+      tagWidgets.add(Container(
+        padding: EdgeInsets.symmetric(horizontal: 2.w, vertical: 0.5.h),
+        decoration: BoxDecoration(
+          color: AppTheme.accentColor.withValues(alpha: 0.1),
+          borderRadius: BorderRadius.circular(6),
+        ),
+        child: Text(
+          '+$remainingCount',
+          style: AppTheme.darkTheme.textTheme.labelSmall?.copyWith(
+            color: AppTheme.mutedText,
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+      ));
+    }
+
+    return Row(
+      children: tagWidgets,
     );
   }
 

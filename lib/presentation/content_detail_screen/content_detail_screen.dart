@@ -13,25 +13,10 @@ import './widgets/user_ratings_widget.dart';
 
 class ContentDetailScreen extends StatelessWidget {
   final Medium medium;
-  final List<Map<String, dynamic>>? streamingPlatforms;
 
   const ContentDetailScreen({
     super.key,
     required this.medium,
-    this.streamingPlatforms = const [
-      {
-        "name": "Netflix",
-        "type": "Streaming",
-        "logoUrl": "https://images.unsplash.com/photo-1611162617474-5b21e879e113?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3",
-        "deepLink": "netflix://title/80057281"
-      },
-      {
-        "name": "Amazon Prime",
-        "type": "Aluguel",
-        "logoUrl": "https://images.unsplash.com/photo-1560472354-b33ff0c44a43?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3",
-        "deepLink": "primevideo://detail/0GZQT3YWHGWCKV"
-      }
-    ],
   });
 
   @override
@@ -101,7 +86,7 @@ class ContentDetailScreen extends StatelessWidget {
                 ),
                 SizedBox(height: 2.h),
                 StreamingPlatformsWidget(
-                  platforms: streamingPlatforms ?? [],
+                  platforms: medium.streamingPlatforms,
                 ),
                 SizedBox(height: 2.h),
                 UserRatingsWidget(

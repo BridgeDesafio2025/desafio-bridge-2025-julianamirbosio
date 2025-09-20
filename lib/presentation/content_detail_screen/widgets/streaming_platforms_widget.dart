@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 
+import '../../../core/model/streaming_platform.dart';
 import '../../../core/app_export.dart';
 
 class StreamingPlatformsWidget extends StatelessWidget {
-  final List<Map<String, dynamic>> platforms;
+  final List<StreamingPlatform> platforms;
 
   const StreamingPlatformsWidget({
     super.key,
@@ -13,6 +14,11 @@ class StreamingPlatformsWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // retorna um widget vazio se a media não existe em nenhuma plataforma
+    if (platforms.isEmpty) {
+      return const SizedBox.shrink();
+    }
+
     return Container(
       width: double.infinity,
       padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 2.h),
@@ -59,8 +65,7 @@ class StreamingPlatformsWidget extends StatelessWidget {
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(8),
                           child: CustomImageWidget(
-                            imageUrl: platform['logoUrl'] ??
-                                'https://images.unsplash.com/photo-1611162617474-5b21e879e113?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3',
+                            imageUrl: platform.logoUrl,
                             width: 10.w,
                             height: 5.h,
                             fit: BoxFit.cover,
@@ -76,7 +81,7 @@ class StreamingPlatformsWidget extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              platform['name'] ?? 'Plataforma',
+                              platform.name,
                               style: AppTheme.darkTheme.textTheme.bodyMedium?.copyWith(
                                 color: AppTheme.contentWhite,
                                 fontWeight: FontWeight.w600,
@@ -86,7 +91,7 @@ class StreamingPlatformsWidget extends StatelessWidget {
                             ),
                             SizedBox(height: 0.5.h),
                             Text(
-                              platform['type'] ?? 'Streaming',
+                              platform.type,
                               style: AppTheme.darkTheme.textTheme.bodySmall?.copyWith(
                                 color: AppTheme.mutedText,
                               ),
@@ -112,11 +117,11 @@ class StreamingPlatformsWidget extends StatelessWidget {
     );
   }
 
-  void _openPlatformApp(BuildContext context, Map<String, dynamic> platform) {
+  void _openPlatformApp(BuildContext context, StreamingPlatform platform) {
     
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text('Abrindo ${platform['name'] ?? 'plataforma'}...'),
+        content: Text('Abrindo ${platform.name}...'),
         backgroundColor: AppTheme.accentColor,
         behavior: SnackBarBehavior.floating,
         shape: RoundedRectangleBorder(

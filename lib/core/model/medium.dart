@@ -1,53 +1,60 @@
 import 'package:movies__series_app/core/model/rating.dart';
+import 'package:movies__series_app/core/model/streaming_platform.dart';
 
 import '../enums/media_type.dart';
 
 class Medium {
   final int id;
-  final MediaType type;
   final String title;
+  final MediaType type;
   final List<String> genres;
-  final String synopsis;
   final double rating;
+  final List<StreamingPlatform> streamingPlatforms;
   final String? poster;
+  final String synopsis;
   final int year;
   final String duration;
-  final int? episodes;
   final int? seasons;
+  final int? episodes;
   final List<Rating> ratings;
 
   Medium({
     required this.id,
-    required this.type,
     required this.title,
+    required this.type,
     required this.genres,
-    required this.synopsis,
     required this.rating,
+    required this.streamingPlatforms,
     this.poster,
+    required this.synopsis,
     required this.year,
     required this.duration,
-    this.episodes,
     this.seasons,
+    this.episodes,
     required this.ratings,
   });
 
   factory Medium.fromJson(Map<String, dynamic> json) {
     return Medium(
       id: json['id'],
+      title: json['title'],
       type: MediaType.values.firstWhere(
         (type) =>
             type.name.toLowerCase() == json['type'].toString().toLowerCase(),
         orElse: () => MediaType.movie,
       ),
-      title: json['title'],
       genres: List<String>.from(json['genre']),
-      synopsis: json['synopsis'],
       rating: (json['rating'] as num).toDouble(),
+      streamingPlatforms: (json['streamingPlatforms'] as List<dynamic>?)
+              ?.map((e) => StreamingPlatform.fromJson(e))
+              .toList() ??
+          [],
       poster: json['poster'],
+      synopsis: json['synopsis'],
       year: json['year'],
       duration: json['duration'],
-      episodes: json['episodes'],
       seasons: json['seasons'],
+      episodes: json['episodes'],
       ratings: (json['ratings'] as List<dynamic>?)
               ?.map((e) => Rating.fromJson(e))
               .toList() ??
