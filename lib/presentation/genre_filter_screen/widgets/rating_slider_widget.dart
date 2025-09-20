@@ -78,8 +78,8 @@ class RatingSliderWidget extends StatelessWidget {
             child: Slider(
               value: currentRating,
               min: 0.0,
-              max: 10.0,
-              divisions: 20,
+              max: 5.0,
+              divisions: 10,
               onChanged: onRatingChanged,
             ),
           ),
@@ -93,7 +93,7 @@ class RatingSliderWidget extends StatelessWidget {
                 ),
               ),
               Text(
-                '10.0',
+                '5.0',
                 style: AppTheme.darkTheme.textTheme.labelSmall?.copyWith(
                   color: AppTheme.mutedText,
                 ),
