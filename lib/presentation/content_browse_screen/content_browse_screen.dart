@@ -328,7 +328,8 @@ class _ContentBrowseScreenState extends State<ContentBrowseScreen> with TickerPr
   Widget _buildErrorState() {
     return Center(
       child: ErrorRetryWidget(
-        message: 'Não foi possível carregar o conteúdo. Verifique sua conexão com a internet.',
+        message:
+            'Não foi possível carregar o conteúdo. Verifique sua conexão com a internet.',
         onRetry: _loadInitialContent,
       ),
     );
@@ -336,7 +337,9 @@ class _ContentBrowseScreenState extends State<ContentBrowseScreen> with TickerPr
 
   Widget _buildEmptyState() {
     return EmptyStateWidget(
-      message: _selectedFilter == 'Todos' ? 'Não há conteúdo disponível no momento.' : 'Não encontramos conteúdo para "${_selectedFilter.toString()}".',
+      message: _selectedFilter == 'Todos'
+          ? 'Não há conteúdo disponível no momento.'
+          : _selectedFilter.toReadableString(),
       actionText: 'Limpar Filtro',
       onAction: _selectedFilter != 'Todos' ? () => _onGenreSelected('Todos') : null,
     );

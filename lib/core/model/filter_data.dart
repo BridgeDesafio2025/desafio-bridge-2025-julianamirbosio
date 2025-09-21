@@ -13,6 +13,12 @@ class FilterData {
     this.rating,
   });
 
+  bool get isEmpty =>
+      type == null &&
+      (genre == null || genre!.isEmpty) &&
+      year == null &&
+      rating == null;
+
   FilterData copyWith({
     MediaType? type,
     List<String>? genre,
@@ -44,6 +50,42 @@ class FilterData {
     }
 
     return params;
+  }
+
+  String toReadableString() {
+    if (isEmpty) {
+      return 'Nenhum filtro aplicado.';
+    }
+
+    List<String> parts = [];
+
+    // Transforma para o plural (ex: Série -> Séries)
+    if (type != null) {
+      parts.add('para ${type!.ptBrName}');
+    }
+
+    // Adiciona os gêneros (ex: "do gênero Ação e Drama")
+    if (genre != null && genre!.isNotEmpty) {
+      if (genre!.length == 1) {
+        parts.add('do gênero ${genre![0]}');
+      } else {
+        String lastGenre = genre!.removeLast();
+        parts.add('dos gêneros ${genre!.join(', ')} e ${lastGenre}');
+      }
+    }
+
+    // Adiciona o ano (ex: "de 1993")
+    if (year != null) {
+      parts.add('de $year');
+    }
+
+    // Adiciona a avaliação (ex: "com mais de 5.0 estrelas")
+    if (rating != null) {
+      parts.add('com pelo menos ${rating} estrelas');
+    }
+
+    // Junta as strings
+    return 'Não encontramos conteúdo ${parts.join(' ')}.';
   }
 
   @override

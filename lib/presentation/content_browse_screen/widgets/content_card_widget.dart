@@ -71,15 +71,16 @@ class ContentCardWidget extends StatelessWidget {
         children: [
           Row(
             children: [
-              Text(
-                content.title,
-                style: AppTheme.darkTheme.textTheme.titleMedium?.copyWith(
-                  fontWeight: FontWeight.w600,
+              Expanded(
+                child: Text(
+                  content.title,
+                  style: AppTheme.darkTheme.textTheme.titleMedium?.copyWith(
+                    fontWeight: FontWeight.w600,
+                  ),
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
                 ),
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
               ),
-              const Spacer(),
               _buildDurationTag(),
             ],
           ),
