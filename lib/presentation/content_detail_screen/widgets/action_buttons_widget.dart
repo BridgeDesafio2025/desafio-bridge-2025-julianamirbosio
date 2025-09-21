@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../../core/app_export.dart';
+import '../../../core/model/medium.dart';
+import '../../../core/providers/favorites_provider.dart';
 
 class ActionButtonsWidget extends StatefulWidget {
-  final bool isInWatchlist;
-  final VoidCallback? onWatchlistToggle;
+  final Medium content;
   final VoidCallback? onShare;
 
   const ActionButtonsWidget({
     super.key,
-    this.isInWatchlist = false,
-    this.onWatchlistToggle,
+    required this.content,
     this.onShare,
   });
 
@@ -22,12 +23,10 @@ class ActionButtonsWidget extends StatefulWidget {
 class _ActionButtonsWidgetState extends State<ActionButtonsWidget> with TickerProviderStateMixin {
   late AnimationController _heartAnimationController;
   late Animation<double> _heartScaleAnimation;
-  bool _isInWatchlist = false;
 
   @override
   void initState() {
     super.initState();
-    _isInWatchlist = widget.isInWatchlist;
 
     _heartAnimationController = AnimationController(
       duration: const Duration(milliseconds: 300),
@@ -51,6 +50,9 @@ class _ActionButtonsWidgetState extends State<ActionButtonsWidget> with TickerPr
 
   @override
   Widget build(BuildContext context) {
+    final favoritesProvider = context.watch<FavoritesProvider>();
+    final bool isFavorited = favoritesProvider.isFavorite(widget.content);
+    
     return Container(
       width: double.infinity,
       padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 3.h),
@@ -60,15 +62,15 @@ class _ActionButtonsWidgetState extends State<ActionButtonsWidget> with TickerPr
           Expanded(
             flex: 3,
             child: GestureDetector(
-              onTap: _handleWatchlistToggle,
+              onTap: () => _handleWatchlistToggle(isFavorited),
               child: Container(
                 height: 6.h,
                 decoration: BoxDecoration(
-                  color: _isInWatchlist ? AppTheme.accentColor : AppTheme.accentColor.withValues(alpha: 0.1),
+                  color: isFavorited ? AppTheme.accentColor : AppTheme.accentColor.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(12),
                   border: Border.all(
                     color: AppTheme.accentColor,
-                    width: _isInWatchlist ? 0 : 1,
+                    width: isFavorited ? 0 : 1,
                   ),
                 ),
                 child: Row(
@@ -80,8 +82,8 @@ class _ActionButtonsWidgetState extends State<ActionButtonsWidget> with TickerPr
                         return Transform.scale(
                           scale: _heartScaleAnimation.value,
                           child: Icon(
-                            _isInWatchlist ? Icons.favorite : Icons.favorite_border,
-                            color: _isInWatchlist ? AppTheme.contentWhite : AppTheme.accentColor,
+                            isFavorited ? Icons.favorite : Icons.favorite_border,
+                            color: isFavorited ? AppTheme.contentWhite : AppTheme.accentColor,
                             size: 20,
                           ),
                         );
@@ -89,9 +91,9 @@ class _ActionButtonsWidgetState extends State<ActionButtonsWidget> with TickerPr
                     ),
                     SizedBox(width: 2.w),
                     Text(
-                      _isInWatchlist ? 'Na Lista' : 'Adicionar à Lista',
+                      isFavorited ? 'Na Lista' : 'Adicionar à Lista',
                       style: AppTheme.darkTheme.textTheme.bodyMedium?.copyWith(
-                        color: _isInWatchlist ? AppTheme.contentWhite : AppTheme.accentColor,
+                        color: isFavorited ? AppTheme.contentWhite : AppTheme.accentColor,
                         fontWeight: FontWeight.w600,
                       ),
                     ),
@@ -130,11 +132,9 @@ class _ActionButtonsWidgetState extends State<ActionButtonsWidget> with TickerPr
     );
   }
 
-  void _handleWatchlistToggle() {
-    setState(() {
-      _isInWatchlist = !_isInWatchlist;
-    });
-
+  void _handleWatchlistToggle(bool isFavorited) {
+    final favoritesProvider = context.read<FavoritesProvider>();
+    favoritesProvider.toggleFavorite(widget.content);
     
     _heartAnimationController.forward().then((_) {
       _heartAnimationController.reverse();
@@ -144,17 +144,15 @@ class _ActionButtonsWidgetState extends State<ActionButtonsWidget> with TickerPr
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(
-          _isInWatchlist ? 'Adicionado à sua lista de favoritos!' : 'Removido da sua lista de favoritos',
+          !isFavorited ? 'Adicionado à sua lista de favoritos!' : 'Removido da sua lista de favoritos',
         ),
-        backgroundColor: _isInWatchlist ? AppTheme.successColor : AppTheme.mutedText,
+        backgroundColor: isFavorited ? AppTheme.successColor : AppTheme.mutedText,
         behavior: SnackBarBehavior.floating,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(8),
         ),
       ),
     );
-
-    widget.onWatchlistToggle?.call();
   }
 
   void _handleShare() {

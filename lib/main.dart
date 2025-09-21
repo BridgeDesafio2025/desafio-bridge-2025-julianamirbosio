@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:sizer/sizer.dart';
+import 'package:provider/provider.dart';
 
+import '../core/providers/favorites_provider.dart';
 import '../core/app_export.dart';
 import '../widgets/custom_error_widget.dart';
 
@@ -16,7 +18,12 @@ void main() async {
   Future.wait([
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
   ]).then((value) {
-    runApp(MyApp());
+    runApp(
+      ChangeNotifierProvider(
+        create: (context) => FavoritesProvider(),
+        child: MyApp(),
+      ),
+    );
   });
 }
 

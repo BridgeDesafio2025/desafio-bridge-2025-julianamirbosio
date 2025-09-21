@@ -36,6 +36,7 @@ flutter_app/
 │   │   └── api/        # Classes de comunicação com API
 │   │   └── enums/      # Enums
 │   │   └── models/     # Modelos de dados
+│   │   └── providers/  # Lista de favoritos
 │   ├── presentation/   # UI
 │   ├── routes/         # Definição das rotas da aplicação
 │   ├── theme/          # Configuração de tema
