@@ -3,11 +3,14 @@ import 'package:flutter/services.dart';
 import 'package:sizer/sizer.dart';
 import 'package:provider/provider.dart';
 
+import 'locator.dart';
 import '../core/providers/favorites_provider.dart';
 import '../core/app_export.dart';
 import '../widgets/custom_error_widget.dart';
 
 void main() async {
+  setupLocator();
+
   WidgetsFlutterBinding.ensureInitialized();
 
   ErrorWidget.builder = (FlutterErrorDetails details) {

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:sizer/sizer.dart';
 
+import '../../../locator.dart';
+
 import '../../../core/app_export.dart';
 
 class UserRatingsWidget extends StatefulWidget {
@@ -17,6 +19,7 @@ class UserRatingsWidget extends StatefulWidget {
 }
 
 class _UserRatingsWidgetState extends State<UserRatingsWidget> {
+  final MediaService _mediaService = locator<MediaService>();
   Map<String, dynamic>? _userRatings;
   bool _isLoading = true;
 
@@ -34,7 +37,7 @@ class _UserRatingsWidgetState extends State<UserRatingsWidget> {
 
   Future<Map<String, dynamic>?> _loadRatings() async {
     try {
-      return await getMediumRatings(widget.mediumId);
+      return await _mediaService.getMediumRatings(widget.mediumId);
     } catch (e) {
       if (mounted) {
         Fluttertoast.showToast(

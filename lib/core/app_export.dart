@@ -2,4 +2,4 @@ export 'package:connectivity_plus/connectivity_plus.dart';
 export '../routes/app_routes.dart';
 export '../widgets/custom_image_widget.dart';
 export '../theme/app_theme.dart';
-export 'api/media.dart';
+export 'api/media_service.dart';

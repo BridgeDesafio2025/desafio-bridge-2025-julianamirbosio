@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:sizer/sizer.dart';
 
+import '../../locator.dart';
+
 import '../../core/app_export.dart';
 import '../../core/model/filter_data.dart';
 import '../../core/model/medium.dart';
@@ -21,6 +23,7 @@ class ContentBrowseScreen extends StatefulWidget {
 }
 
 class _ContentBrowseScreenState extends State<ContentBrowseScreen> with TickerProviderStateMixin {
+  final MediaService _mediaService = locator<MediaService>();
   late TabController _tabController;
   late ScrollController _scrollController;
 
@@ -93,7 +96,7 @@ class _ContentBrowseScreenState extends State<ContentBrowseScreen> with TickerPr
     });
 
     try {
-      final contentPage = await getMediaPage();
+      final contentPage = await _mediaService.getMediaPage();
       final content = contentPage.data;
       if (!mounted) return;
 
@@ -126,7 +129,7 @@ class _ContentBrowseScreenState extends State<ContentBrowseScreen> with TickerPr
     });
 
     try {
-      final newContentPage = await getMediaPage(
+      final newContentPage = await _mediaService.getMediaPage(
         page: _currentPage + 1,
         filterData: _selectedFilter,
       );
@@ -165,7 +168,7 @@ class _ContentBrowseScreenState extends State<ContentBrowseScreen> with TickerPr
       _selectedFilter = genre != 'Todos' ? _selectedFilter.copyWith(genre: [genre]) : FilterData();
     });
     try {
-      final contentPage = await getMediaPage(filterData: _selectedFilter);
+      final contentPage = await _mediaService.getMediaPage(filterData: _selectedFilter);
       final content = contentPage.data;
 
       if (!mounted) return;
@@ -209,7 +212,7 @@ class _ContentBrowseScreenState extends State<ContentBrowseScreen> with TickerPr
       _selectedFilter = filterData;
     });
     try {
-      final contentPage = await getMediaPage(filterData: filterData);
+      final contentPage = await _mediaService.getMediaPage(filterData: filterData);
       final content = contentPage.data;
 
       if (!mounted) return;

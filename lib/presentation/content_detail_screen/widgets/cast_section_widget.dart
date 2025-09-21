@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:sizer/sizer.dart';
 
+import '../../../locator.dart';
+
 import '../../../core/app_export.dart';
 import '../../../core/model/actor.dart';
 
@@ -14,6 +16,7 @@ class CastSectionWidget extends StatefulWidget {
 }
 
 class _CastSectionWidgetState extends State<CastSectionWidget> {
+  final MediaService _mediaService = locator<MediaService>();
   List<Actor>? _cast;
   bool _isLoading = true;
 
@@ -31,7 +34,7 @@ class _CastSectionWidgetState extends State<CastSectionWidget> {
 
   Future<List<Actor>?> _loadCast() async {
     try {
-      return await getMediumCast(widget.mediumId);
+      return await _mediaService.getMediumCast(widget.mediumId);
     } catch (e) {
       if (mounted) {
         Fluttertoast.showToast(
