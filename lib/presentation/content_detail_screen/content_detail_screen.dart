@@ -87,7 +87,7 @@ class ContentDetailScreen extends StatelessWidget {
                       genres: medium.genres,
                     ),
                     SynopsisSectionWidget(
-                      synopsis: medium.synopsis,
+                      medium: medium,
                     ),
                     SizedBox(height: 2.h),
                     CastSectionWidget(
