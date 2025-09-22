@@ -59,7 +59,7 @@ class FilterData {
 
     List<String> parts = [];
 
-    // Transforma para o plural (ex: Série -> Séries)
+    // Indica o tipo do conteúdo
     if (type != null) {
       parts.add('para ${type!.ptBrName}');
     }

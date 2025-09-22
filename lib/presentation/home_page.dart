@@ -31,21 +31,24 @@ class _HomePageState extends State<HomePage> {
           FavoriteMoviesScreen(),
         ],
       ),
-      bottomNavigationBar: CustomBottomBar(
-        currentIndex: _selectedIndex,
-        items: [
-          BottomBarItem(
-            icon: Icons.home_outlined,
-            activeIcon: Icons.home,
-            label: 'Navegar',
-          ),
-          BottomBarItem(
-            icon: Icons.favorite_border,
-            activeIcon: Icons.favorite,
-            label: 'Favoritos',
-          ),
-        ],
-        onTap: _onItemTapped,
+      bottomNavigationBar: Semantics(
+        label: 'Abas: ',
+        child: CustomBottomBar(
+          currentIndex: _selectedIndex,
+          items: [
+            BottomBarItem(
+              icon: Icons.home_outlined,
+              activeIcon: Icons.home,
+              label: 'Navegar',
+            ),
+            BottomBarItem(
+              icon: Icons.favorite_border,
+              activeIcon: Icons.favorite,
+              label: 'Favoritos',
+            ),
+          ],
+          onTap: _onItemTapped,
+        ),
       ),
     );
   }

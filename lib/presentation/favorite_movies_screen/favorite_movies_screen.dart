@@ -32,11 +32,10 @@ class FavoriteMoviesScreen extends StatelessWidget {
             itemCount: favoritesList.length,
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 3, // 3 posters por linha
-              childAspectRatio: 2 / 3, // Proporção do poster 
+              childAspectRatio: 2 / 3, // Proporção do poster
               crossAxisSpacing: 8, // Espaçamento horizontal
               mainAxisSpacing: 8, // Espaçamento vertical
             ),
-
             itemBuilder: (context, index) {
               final medium = favoritesList[index];
 
@@ -51,7 +50,9 @@ class FavoriteMoviesScreen extends StatelessWidget {
                 },
                 // Acessibilidade
                 child: Semantics(
-                  label: 'Pôster do filme ${medium.title}',
+                  label: medium.title,
+                  onTapHint: 'ver detalhes',
+                  button: true,
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(8.0),
                     child: CustomImageWidget(

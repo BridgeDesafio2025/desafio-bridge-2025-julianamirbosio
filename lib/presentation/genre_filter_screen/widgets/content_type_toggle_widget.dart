@@ -33,26 +33,33 @@ class ContentTypeToggleWidget extends StatelessWidget {
           final isFirst = type == contentTypes.first;
           final isLast = type == contentTypes.last;
 
+          final int index = contentTypes.indexOf(type);
+
           return Expanded(
-            child: GestureDetector(
-              onTap: () => onTypeChanged(type),
-              child: AnimatedContainer(
-                duration: const Duration(milliseconds: 200),
-                padding: EdgeInsets.symmetric(vertical: 3.h),
-                decoration: BoxDecoration(
-                  color: isSelected ? AppTheme.accentColor : Colors.transparent,
-                  borderRadius: BorderRadius.horizontal(
-                    left: isFirst ? const Radius.circular(12) : Radius.zero,
-                    right: isLast ? const Radius.circular(12) : Radius.zero,
+            child: Semantics(
+              selected: isSelected,
+              // Talkback anuncia se o item está selecionado
+              hint: 'Opção ${index + 1} de ${contentTypes.length}',
+              child: GestureDetector(
+                onTap: () => onTypeChanged(type),
+                child: AnimatedContainer(
+                  duration: const Duration(milliseconds: 200),
+                  padding: EdgeInsets.symmetric(vertical: 3.h),
+                  decoration: BoxDecoration(
+                    color: isSelected ? AppTheme.accentColor : Colors.transparent,
+                    borderRadius: BorderRadius.horizontal(
+                      left: isFirst ? const Radius.circular(12) : Radius.zero,
+                      right: isLast ? const Radius.circular(12) : Radius.zero,
+                    ),
                   ),
-                ),
-                child: Text(
-                  type,
-                  textAlign: TextAlign.center,
-                  style: AppTheme.darkTheme.textTheme.titleSmall?.copyWith(
-                    color:
-                        isSelected ? AppTheme.contentWhite : AppTheme.mutedText,
-                    fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
+                  child: Text(
+                    type,
+                    textAlign: TextAlign.center,
+                    style: AppTheme.darkTheme.textTheme.titleSmall?.copyWith(
+                      color:
+                          isSelected ? AppTheme.contentWhite : AppTheme.mutedText,
+                      fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
+                    ),
                   ),
                 ),
               ),

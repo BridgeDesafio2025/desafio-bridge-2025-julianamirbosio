@@ -42,6 +42,7 @@ class MyApp extends StatelessWidget {
         builder: (context, child) {
           return MediaQuery(
             data: MediaQuery.of(context).copyWith(
+              // TO-DO: remover o tamanho da fonte estático
               textScaler: TextScaler.linear(1.0),
             ),
             child: child!,

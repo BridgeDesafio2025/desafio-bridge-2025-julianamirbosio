@@ -276,7 +276,7 @@ class _ContentBrowseScreenState extends State<ContentBrowseScreen> with TickerPr
         title: 'CineList',
         actions: [
           IconButton(
-            tooltip: 'Filter',
+            tooltip: 'Filtrar',
             icon: const Icon(Icons.filter_list),
             onPressed: () => Navigator.pushNamed<FilterData?>(context, AppRoutes.genreFilter).then(
               (FilterData) {
@@ -291,10 +291,13 @@ class _ContentBrowseScreenState extends State<ContentBrowseScreen> with TickerPr
       ),
       body: Column(
         children: [
-          GenreFilterWidget(
-            selectedGenre: _selectedFilter.genre?.first ?? 'Todos',
-            genres: _genres,
-            onGenreSelected: _onGenreSelected,
+          Semantics(
+            label: 'Filtro de Gêneros',
+            child: GenreFilterWidget(
+              selectedGenre: _selectedFilter.genre?.first ?? 'Todos',
+              genres: _genres,
+              onGenreSelected: _onGenreSelected,
+            ),
           ),
           Expanded(
             child: _buildContent(),
@@ -363,11 +366,19 @@ class _ContentBrowseScreenState extends State<ContentBrowseScreen> with TickerPr
           }
 
           final content = _content[index];
-          return ContentCardWidget(
-            content: content,
+          return Semantics(
+            label: '${content.title}, gêneros: ${content.genres.join(', ')}, avaliação: ${content.rating} de 5.',
+            button: true,
+            onTapHint: 'ver os detalhes',
             onTap: () => _onContentTap(content),
-            onFavorite: () => _onFavorite(content),
-            onShare: () => _onShare(content),
+            child: ExcludeSemantics(
+              child: ContentCardWidget(
+                content: content,
+                onTap: () => _onContentTap(content),
+                onFavorite: () => _onFavorite(content),
+                onShare: () => _onShare(content),
+              ),
+            ),
           );
         },
       ),

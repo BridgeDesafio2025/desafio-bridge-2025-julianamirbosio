@@ -37,6 +37,7 @@ class ContentDetailScreen extends StatelessWidget {
                 pinned: true,
                 expandedHeight: 0,
                 leading: IconButton(
+                  tooltip: 'Voltar', 
                   icon: const Icon(
                     Icons.arrow_back_ios,
                     color: AppTheme.contentWhite,
@@ -53,6 +54,7 @@ class ContentDetailScreen extends StatelessWidget {
                 ),
                 actions: [
                   IconButton(
+                    tooltip: isFavorited ? 'Remover dos favoritos' : 'Adicionar aos favoritos',
                     icon: Icon(
                       isFavorited ? Icons.favorite : Icons.favorite_border,
                       color: isFavorited ? Colors.redAccent : AppTheme.contentWhite,
@@ -63,6 +65,7 @@ class ContentDetailScreen extends StatelessWidget {
                     },
                   ),
                   IconButton(
+                    tooltip: 'Compartilhar', 
                     icon: const Icon(
                       Icons.share,
                       color: AppTheme.contentWhite,
