@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:movies__series_app/core/providers/favorites_provider.dart';
+import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../../../core/app_export.dart';
@@ -256,6 +258,9 @@ class ContentCardWidget extends StatelessWidget {
   }
 
   void _showQuickActions(BuildContext context) {
+    final favoritesProvider = Provider.of<FavoritesProvider>(context, listen: false);
+    final bool isFavorited = favoritesProvider.isFavorite(content);
+
     showModalBottomSheet(
       context: context,
       backgroundColor: AppTheme.darkTheme.colorScheme.surface,
@@ -267,35 +272,39 @@ class ContentCardWidget extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Container(
-              width: 12.w,
-              height: 0.5.h,
-              decoration: BoxDecoration(
-                color: AppTheme.borderColor,
-                borderRadius: BorderRadius.circular(2),
+            ExcludeSemantics(
+              child: Container(
+                width: 12.w,
+                height: 0.5.h,
+                decoration: BoxDecoration(
+                  color: AppTheme.borderColor,
+                  borderRadius: BorderRadius.circular(2),
+                ),
               ),
             ),
             SizedBox(height: 3.h),
             ListTile(
               leading: Icon(
-                Icons.favorite_border,
+                isFavorited ? Icons.favorite : Icons.favorite_border,
                 color: AppTheme.accentColor,
                 size: 24,
               ),
               title: Text(
-                'Adicionar aos Favoritos',
+                isFavorited ? 'Remover dos Favoritos' : 'Adicionar aos Favoritos',
                 style: AppTheme.darkTheme.textTheme.bodyMedium,
               ),
               onTap: () {
                 Navigator.pop(context);
-                onFavorite?.call();
+                favoritesProvider.toggleFavorite(content);
               },
             ),
             ListTile(
-              leading: Icon(
-                Icons.share,
-                color: AppTheme.successColor,
-                size: 24,
+              leading: ExcludeSemantics(
+                child: Icon(
+                  Icons.share,
+                  color: AppTheme.successColor,
+                  size: 24,
+                ),
               ),
               title: Text(
                 'Compartilhar Conteúdo',
