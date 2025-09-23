@@ -42,6 +42,10 @@ flutter_app/
 │   ├── theme/          # Configuração de tema
 │   ├── widgets/        # Componentes de UI reusáveis
 │   └── main.dart
+├── test/
+│   └── core/
+│       └── model/      # Testes com classes de comunicação com API
+│       └── providers/  # Testes com o provider
 ├── assets/             # assets (imagens, fontes, etc.)
 ├── pubspec.yaml        # Libs e dependências
 └── README.md           # documentação
